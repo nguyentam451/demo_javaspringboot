@@ -58,12 +58,20 @@
 			<version>1.5.5.Final</version>
 		</dependency>
 
+
+
 		<!-- Dependency cho MapStruct Processor -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
 			<version>1.5.5.Final</version>
 			<scope>provided</scope>
+		</dependency>
+
+<!--		Dependency cho Bcrypt-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 
 		<dependency>

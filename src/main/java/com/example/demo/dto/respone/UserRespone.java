@@ -1,7 +1,9 @@
 package com.example.demo.dto.respone;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -11,8 +13,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRespone {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     String id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     String username;
+
     String password;
     String firstName;
     String lastName;

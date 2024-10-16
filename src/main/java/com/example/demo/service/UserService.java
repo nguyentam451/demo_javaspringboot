@@ -12,6 +12,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,8 @@ public class UserService {
 //        user.setDateOfBirth(request.getDateOfBirth());
 
         User user = userMapper.toUser(request);
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
@@ -53,11 +56,14 @@ public class UserService {
 
     public UserRespone getUser(String id){
         User user = userRepository.findById(id)
-             .orElseThrow(() -> new RuntimeException("User not found!!!"));
+             .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         return userMapper.toUserRespone(user);
     }
 
     public UserRespone updateUser(String userID, UserUpdateRequest request) {
+
+        User user = userRepository.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found!") );
 
         // cách ko sử dụng mapping
 //        User user = getUser(userID);
@@ -66,11 +72,13 @@ public class UserService {
 //        user.setLastName(request.getLastName());
 //        user.setDateOfBirth(request.getDateOfBirth());
 
-        User user = userRepository.findById(userID)
-                .orElseThrow(() -> new RuntimeException("User not found!") );
 
         // mapping UserRequest đến User entity
         userMapper.updateUser(user,request);
+
+        // mã hóa password ở user
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // lưu user entity và trả về kết quả là UserRespone cho khách hàng
         return userMapper.toUserRespone(userRepository.save(user));
