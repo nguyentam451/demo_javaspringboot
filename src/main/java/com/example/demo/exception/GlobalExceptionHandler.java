@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
 
         String message = exception.getMessage();
 
-        System.out.println("ccccccccccccccccccccccc" + message);
+        System.out.println("message ở đoạn này là: " + message); // lỗi khi sai path ở controller
 
         ErrorCode errorCode = ErrorCode.PATH_VARIABLE_ERROR;
 
